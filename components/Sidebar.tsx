@@ -67,7 +67,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>
               Smart<span className="gradient-text">Teacher</span>
             </div>
-            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>AI Platform</div>
           </div>
         </div>
         <div className="divider" />
