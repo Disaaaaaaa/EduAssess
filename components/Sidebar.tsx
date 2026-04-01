@@ -10,9 +10,15 @@ import {
   History,
   LogOut,
   GraduationCap,
+  X
 } from "lucide-react";
 
-export default function Sidebar() {
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const t = useTranslations("nav");
   const pathname = usePathname();
   const { user, signOut } = useAuth();
@@ -24,7 +30,23 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+      {/* Mobile Close Button */}
+      <button 
+        className="mobile-close-btn" 
+        onClick={onClose}
+        style={{
+          position: "absolute",
+          top: 20,
+          right: 16,
+          background: "none",
+          border: "none",
+          color: "var(--text-muted)",
+          display: "none" // Managed via CSS
+        }}
+      >
+        <X size={20} />
+      </button>
       {/* Logo */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
@@ -58,6 +80,7 @@ export default function Sidebar() {
             key={href}
             href={href}
             className={`nav-item ${pathname.startsWith(href) ? "active" : ""}`}
+            onClick={onClose}
           >
             <Icon size={18} />
             {label}

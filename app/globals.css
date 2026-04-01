@@ -204,6 +204,32 @@ html, body {
   bottom: 0;
   overflow-y: auto;
   z-index: 50;
+  transition: transform 0.3s ease;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
+  z-index: 40;
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.mobile-header {
+  display: none;
+  height: 60px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  padding: 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 30;
 }
 
 .main-content {
@@ -375,7 +401,10 @@ select.input-field {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .sidebar { display: none; }
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .mobile-header { display: flex; justify-content: space-between; }
+  .mobile-close-btn { display: block !important; }
   .main-content { margin-left: 0; padding: 20px; }
 }
 /* Number buttons for lesson selection */

@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/AuthProvider";
 import Sidebar from "@/components/Sidebar";
+import { Menu, X, GraduationCap } from "lucide-react";
 
 function AppShellInner({ children }: { children: React.ReactNode }) {
   const { session, loading } = useAuth();
   const router = useRouter();
   const [showRetry, setShowRetry] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -66,7 +68,48 @@ function AppShellInner({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="app-layout">
-      <Sidebar />
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)} />
+      )}
+
+      {/* Mobile Top Header */}
+      <header className="mobile-header">
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: 8,
+              background: "var(--gradient-1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <GraduationCap size={18} color="white" />
+          </div>
+          <span style={{ fontWeight: 700, fontSize: 16 }}>Smart<span className="gradient-text">Teacher</span></span>
+        </div>
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            width: 40,
+            height: 40,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "var(--text-primary)",
+          }}
+        >
+          {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </header>
+
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <main className="main-content">{children}</main>
     </div>
   );

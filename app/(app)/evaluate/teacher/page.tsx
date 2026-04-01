@@ -606,7 +606,7 @@ export default function TeacherEvalPage() {
 
               <div>
                 <label className="label">Сабақ нөмірі</label>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(60px, 1fr))", gap: 8 }}>
                   {LESSONS.map((n) => (
                     <button key={n} type="button" onClick={() => setLessonNumber(n)} className={`num-btn ${lessonNumber === n ? "active" : ""}`}>{n}</button>
                   ))}
