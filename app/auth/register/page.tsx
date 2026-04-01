@@ -35,6 +35,7 @@ export default function RegisterPage() {
       password: form.password,
       options: {
         data: { name: form.name, role: form.role, school_name: form.schoolName },
+        emailRedirectTo: `${window.location.origin}/auth/login`,
       },
     });
 
