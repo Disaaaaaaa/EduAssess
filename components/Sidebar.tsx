@@ -43,7 +43,7 @@ export default function Sidebar() {
           </div>
           <div>
             <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>
-              Edu<span className="gradient-text">Assess</span>
+              Smart<span className="gradient-text">Teacher</span>
             </div>
             <div style={{ fontSize: 11, color: "var(--text-muted)" }}>AI Platform</div>
           </div>

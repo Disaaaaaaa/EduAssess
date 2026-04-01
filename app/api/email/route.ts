@@ -60,13 +60,13 @@ export async function POST(req: NextRequest) {
 
         <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;" />
         <p style="font-size: 12px; color: #94a3b8; text-align: center;">
-          Бұл хат EduAssess AI платформасынан автоматты түрде жіберілді.
+          Бұл хат SmartTeacher AI платформасынан автоматты түрде жіберілді.
         </p>
       </div>
     `;
 
     const sendRes = await resend.emails.send({
-      from: "EduAssess AI <onboarding@resend.dev>", // Default test domain. Replace with your verified domain in production.
+      from: "SmartTeacher AI <onboarding@resend.dev>", // Default test domain. Replace with your verified domain in production.
       to: [toEmail],
       subject: `Бағалау есебі: ${data.score}/26 балл`,
       html: emailHtml,

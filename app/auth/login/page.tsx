@@ -76,7 +76,7 @@ export default function LoginPage() {
             <GraduationCap size={28} color="white" />
           </div>
           <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 6, letterSpacing: "-0.02em" }}>
-            Edu<span className="gradient-text">Assess</span>
+            Smart<span className="gradient-text">Teacher</span>
           </h1>
           <p style={{ color: "var(--text-secondary)", fontSize: 14 }}>
             Бағалау платформасына қош келдіңіз

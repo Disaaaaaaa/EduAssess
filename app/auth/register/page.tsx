@@ -87,7 +87,7 @@ export default function RegisterPage() {
             <GraduationCap size={28} color="white" />
           </div>
           <h1 style={{ fontSize: 24, fontWeight: 800, letterSpacing: "-0.02em" }}>
-            Edu<span className="gradient-text">Assess</span>
+            Smart<span className="gradient-text">Teacher</span>
           </h1>
         </div>
 
