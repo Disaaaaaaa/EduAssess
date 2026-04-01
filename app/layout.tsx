@@ -5,8 +5,8 @@ import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider";
 
 export const metadata: Metadata = {
-  title: "Жадыра апай — Бағалау платформасы",
-  description: "Оқушылардың жобалық-зерттеушілік дағдыларын бағалауға арналған AI-көмекші платформа",
+  title: "SmartTeacher",
+  description: "Оқушылардың жобалық-зерттеушілік дағдыларын бағалауға арналған көмекші платформа",
 };
 
 export default async function RootLayout({
