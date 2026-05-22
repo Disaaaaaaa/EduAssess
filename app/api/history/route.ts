@@ -34,17 +34,36 @@ export async function GET(req: NextRequest) {
 
     const { data: users, error: usersError } = await supabaseAdmin
       .from("users")
-      .select("id, name, email")
+      .select("id, name, email, school_id")
       .in("id", Array.from(userIds));
 
     if (usersError) {
       console.error("Supabase /history users fetch error:", usersError.message);
     }
 
+    // Step 2.5: Get all schools
+    const { data: schools, error: schoolsError } = await supabaseAdmin
+      .from("schools")
+      .select("id, name");
+
+    if (schoolsError) {
+      console.error("Supabase /history schools fetch error:", schoolsError.message);
+    }
+
+    const schoolMap: Record<string, string> = {};
+    (schools ?? []).forEach((s: any) => {
+      schoolMap[s.id] = s.name;
+    });
+
     // Step 3: Create user lookup
-    const userMap: Record<string, { name: string; email: string }> = {};
+    const userMap: Record<string, { name: string; email: string; schoolId: string; schoolName: string }> = {};
     (users ?? []).forEach((u: any) => {
-      userMap[u.id] = { name: u.name, email: u.email };
+      userMap[u.id] = {
+        name: u.name,
+        email: u.email,
+        schoolId: u.school_id ?? "",
+        schoolName: u.school_id ? (schoolMap[u.school_id] ?? "—") : "—"
+      };
     });
 
     // Step 4: Merge
@@ -54,6 +73,8 @@ export async function GET(req: NextRequest) {
       teacherName: userMap[e.teacher_id]?.name ?? "—",
       evaluatorEmail: userMap[e.evaluator_id]?.email ?? "",
       teacherEmail: userMap[e.teacher_id]?.email ?? "",
+      schoolId: userMap[e.teacher_id]?.schoolId ?? "",
+      schoolName: userMap[e.teacher_id]?.schoolName ?? "—",
     }));
 
     const response = NextResponse.json(evals);

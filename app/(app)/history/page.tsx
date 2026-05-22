@@ -138,6 +138,7 @@ export default function HistoryPage() {
   const { user } = useAuth();
   const [evals, setEvals] = useState<EvalItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedSchool, setSelectedSchool] = useState("");
 
   useEffect(() => {
     fetchHistory();
@@ -160,27 +161,65 @@ export default function HistoryPage() {
     return <div style={{ padding: 60, textAlign: "center" }}><span className="spinner" /></div>;
   }
 
+  // Get unique list of schools from evaluations
+  const uniqueSchools = Array.from(new Set(evals.map((ev) => ev.schoolName).filter(Boolean)));
+
+  // Filter evaluations by selected school
+  const filteredEvals = selectedSchool
+    ? evals.filter((ev) => ev.schoolName === selectedSchool)
+    : evals;
+
   // Split into two groups based on current user's role in each evaluation
-  const iWasTeacher = evals.filter((ev) => ev.teacher_id === user?.id);
-  const iWasEvaluator = evals.filter((ev) => ev.evaluator_id === user?.id);
+  const iWasTeacher = filteredEvals.filter((ev) => ev.teacher_id === user?.id);
+  const iWasEvaluator = filteredEvals.filter((ev) => ev.evaluator_id === user?.id);
   // Also show evaluations not involving the current user (visible to all)
-  const others = evals.filter((ev) => ev.teacher_id !== user?.id && ev.evaluator_id !== user?.id);
+  const others = filteredEvals.filter((ev) => ev.teacher_id !== user?.id && ev.evaluator_id !== user?.id);
 
   return (
     <div className="animate-fade-in">
       {/* Header */}
-      <div style={{ marginBottom: 32 }}>
-        <h1 className="page-title" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{
-            width: 44, height: 44, borderRadius: 12,
-            background: "var(--gradient-1)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <History size={22} color="white" />
+      <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 16 }}>
+        <div>
+          <h1 className="page-title" style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+            <div style={{
+              width: 44, height: 44, borderRadius: 12,
+              background: "var(--gradient-1)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <History size={22} color="white" />
+            </div>
+            Бағалаулар тарихы
+          </h1>
+          <p className="page-subtitle">Барлық бағалаулар · {filteredEvals.length} жазба</p>
+        </div>
+
+        {/* School Filter Dropdown */}
+        {uniqueSchools.length > 0 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, minWidth: 260 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>Мектеп бойынша сүзу:</label>
+            <select
+              value={selectedSchool}
+              onChange={(e) => setSelectedSchool(e.target.value)}
+              className="input-field"
+              style={{
+                padding: "8px 12px",
+                fontSize: 13,
+                borderRadius: 10,
+                background: "var(--bg-secondary)",
+                border: "1px solid var(--border)",
+                color: "var(--text-primary)",
+                outline: "none"
+              }}
+            >
+              <option value="">Барлығы (Мектеп таңдау)</option>
+              {uniqueSchools.map((sName) => (
+                <option key={sName} value={sName}>
+                  {sName}
+                </option>
+              ))}
+            </select>
           </div>
-          Бағалаулар тарихы
-        </h1>
-        <p className="page-subtitle">Барлық бағалаулар · {evals.length} жазба</p>
+        )}
       </div>
 
       {/* Two-column layout */}

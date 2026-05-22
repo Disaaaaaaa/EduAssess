@@ -10,7 +10,8 @@ import {
   History,
   LogOut,
   GraduationCap,
-  X
+  X,
+  School
 } from "lucide-react";
 
 interface SidebarProps {
@@ -26,6 +27,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const navItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: t("dashboard") },
     { href: "/evaluate/teacher", icon: ClipboardCheck, label: t("evaluateTeacher") },
+    ...(user?.role === "admin"
+      ? [{ href: "/schools", icon: School, label: t("schools") }]
+      : []),
     { href: "/history", icon: History, label: t("history") },
   ];
 
